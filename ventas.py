@@ -1,0 +1,1 @@
+lista_ventas = [{'usuario': 'Victor Manuel Aguilar', 'id_funcion': '1', 'pelicula': 'Avengers: Endgame', 'cantidad': 3, 'total': 30000}, {'usuario': 'Andres Aguilar', 'id_funcion': '2', 'pelicula': 'Spider-Man: No Way Home', 'cantidad': 8, 'total': 80000}]

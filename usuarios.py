@@ -1,0 +1,1 @@
+lista_usuarios = [{'nombre': 'Victor Manuel Aguilar', 'telefono': '3023409883', 'correo': 'victormanuelaguilar54@gmail.com'}, {'nombre': 'Andres Aguilar', 'telefono': '3023409895', 'correo': 'andreaguilar@gmail.com'}]
