@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Lista de Vehículos</h1>
+    
+    <a href="{% url 'vehicle_create' %}" class="btn btn-primary mb-3">
+        Crear Nuevo Vehículo
+    </a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# 1. Iniciar el bucle sobre la variable 'vehicles' enviada por la vista #}
+            {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle.placa }}</td>  {# 2. Acceder a los atributos del modelo #}
+                <td>{{ vehicle.marca }}</td>
+                <td>{{ vehicle.modelo }}</td>
+                <td>{{ vehicle.color }}</td>
+                <td>
+                    {# Aquí irán los botones de editar y eliminar #}
+                    <a href="{% url 'vehicle_update' vehicle.pk %}">Editar</a> | 
+                    <a href="{% url 'vehicle_delete' vehicle.pk %}">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            {# Se muestra si la lista 'vehicles' está vacía #}
+            <tr>
+                <td colspan="5">No hay vehículos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
