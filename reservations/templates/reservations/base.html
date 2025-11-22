@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas de Salas de Estudio</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="layout-container">
+        {% if user.is_authenticated %}
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="{% url 'home' %}" class="logo">Salas de estudio</a>
+            </div>
+            <nav class="sidebar-nav">
+                {% if not user.is_staff %}
+                <a href="{% url 'home' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    Reservar Sala
+                </a>
+                <a href="{% url 'my_reservations' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'my_reservations' %}active{% endif %}">
+                    Mis Reservas
+                </a>
+                {% endif %}
+
+                {% if user.is_staff %}
+                <div class="nav-divider"></div>
+                <span class="nav-label">Administración</span>
+                <a href="{% url 'room_add' %}" class="nav-item">Agregar Sala</a>
+                {% endif %}
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="user-name">{{ user.role_name }}</span>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+        {% endif %}
+
+        <main class="main-content {% if not user.is_authenticated %}full-width{% endif %}">
+            {% if not user.is_authenticated %}
+            <nav class="navbar">
+                <div class="container nav-container">
+                    <a href="{% url 'home' %}" class="logo">Salas de estudio</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+                </div>
+            </nav>
+            {% endif %}
+
+            <div class="container">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+{% extends 'reservations/base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="section-title">Salas de Estudio Disponibles</h1>
+    {% if user.is_staff %}
+    <a href="{% url 'room_add' %}" class="btn btn-primary">+ Agregar Nueva Sala</a>
+    {% endif %}
+</div>
+
+<div class="grid">
+    {% for room in rooms %}
+    <div class="card">
+        {% if room.image %}
+        <img src="{{ room.image.url }}" alt="{{ room.name }}" style="width: 100%; height: 200px; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+            <h3 class="card-title">{{ room.name }}</h3>
+            <p class="card-text">
+                <strong>Capacidad:</strong> {{ room.capacity }} personas<br>
+                <strong>Ubicación:</strong> {{ room.location }}
+            </p>
+            <p class="card-text" style="font-size: 0.9rem;">
+                <em>{{ room.equipment }}</em>
+            </p>
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                {% if not user.is_staff %}
+                <a href="{% url 'reservation_create' %}?room={{ room.id }}" class="btn btn-primary"
+                    style="flex: 1;">Reservar</a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="{% url 'room_edit' room.pk %}" class="btn btn-secondary">Editar</a>
+                <a href="{% url 'room_delete' room.pk %}" class="btn btn-danger">Eliminar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No hay salas disponibles en este momento.</p>
+    {% endfor %}
+</div>
+{% endblock %}

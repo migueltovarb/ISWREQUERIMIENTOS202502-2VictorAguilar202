@@ -1,0 +1,51 @@
+{% extends 'reservations/base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <h1 class="section-title">Reservar una Sala de Estudio</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors.0 }}
+                </div>
+                {% endif %}
+
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small style="color: var(--text-muted);">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                    <div style="color: var(--error-color); font-size: 0.875rem;">{{ field.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Pre-select room if passed in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomId = urlParams.get('room');
+    if (roomId) {
+        const roomSelect = document.getElementById('id_room');
+        if (roomSelect) {
+            roomSelect.value = roomId;
+        }
+    }
+</script>
+{% endblock %}

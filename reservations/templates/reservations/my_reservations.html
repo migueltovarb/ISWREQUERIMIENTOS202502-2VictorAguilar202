@@ -1,0 +1,37 @@
+{% extends 'reservations/base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="section-title">Mis Reservas</h1>
+</div>
+
+<div class="grid">
+    {% for res in my_reservations %}
+    <div class="card">
+        <div class="card-body">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h3 class="card-title">{{ res.room.name }}</h3>
+                    <p class="card-text">
+                        {{ res.date }}<br>
+                        {{ res.start_time }} - {{ res.end_time }}
+                    </p>
+                </div>
+                <span class="badge" style="background-color: #dcfce7; color: #166534;">Confirmada</span>
+            </div>
+            <p class="card-text" style="margin-top: 1rem;">{{ res.reason }}</p>
+            <form action="{% url 'reservation_cancel' res.pk %}" method="get" style="margin-top: 1rem;">
+                <button type="submit" class="btn btn-secondary"
+                    style="width: 100%; color: var(--error-color); border-color: #fecaca;">Cancelar Reserva</button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div
+        style="grid-column: 1 / -1; text-align: center; padding: 3rem; background-color: white; border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">No tienes reservas próximas.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Reservar una Sala</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

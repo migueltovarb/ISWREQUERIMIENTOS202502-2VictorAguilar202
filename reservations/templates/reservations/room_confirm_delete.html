@@ -1,0 +1,21 @@
+{% extends 'reservations/base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; margin-top: 4rem;">
+    <div class="card">
+        <div class="card-body" style="text-align: center;">
+            <h2 class="card-title" style="color: var(--error-color);">Confirmar Eliminación</h2>
+            <p class="card-text">¿Estás seguro de que deseas eliminar la sala "<strong>{{ object.name }}</strong>"?</p>
+            <p class="card-text">Esta acción no se puede deshacer.</p>
+
+            <form method="post" style="margin-top: 2rem;">
+                {% csrf_token %}
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
